@@ -1,0 +1,35 @@
+# flattencom - Arch Linux Package Recipe
+#
+# Builds Rust and Qt components and installs them through makepkg and CMake.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Run from an extracted release source archive with makepkg -p packaging/arch/PKGBUILD.
+# Cargo.toml is the single source of the project version; pkgver reads it.
+pkgname=flattencom
+pkgver() {
+  cd "$startdir"
+  sed -n 's/^version = "\(.*\)"$/\1/p' Cargo.toml
+}
+pkgrel=1
+pkgdesc='Serial debugging workbench with Qt, CLI/TUI and MCP interfaces'
+arch=('x86_64')
+license=('GPL-3.0-or-later')
+depends=('qt6-base' 'systemd-libs' 'gcc-libs')
+makedepends=('rust' 'cmake' 'ninja')
+source=()
+sha256sums=()
+build() {
+  cd "$startdir"
+  cargo build --release --locked
+  cmake -S gui -B gui/build/package -G Ninja -DCMAKE_BUILD_TYPE=Release -DFLATTENCOM_BUNDLE_RUST=ON
+  cmake --build gui/build/package
+}
+package() {
+  cd "$startdir"
+  DESTDIR="$pkgdir" cmake --install gui/build/package --prefix /usr
+}

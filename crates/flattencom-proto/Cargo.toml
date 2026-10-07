@@ -1,0 +1,35 @@
+# flattencom - PROTO Package Manifest
+#
+# Declares the flattencom-proto package targets and dependencies using workspace metadata.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "flattencom-proto"
+description = "RPC protocol and client for shared serial sessions"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+flattencom-core = { path = "../flattencom-core" }
+serde.workspace = true
+serde_json.workspace = true
+schemars.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+dirs.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

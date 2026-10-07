@@ -1,0 +1,11 @@
+// flattencom - Windows Application Icon Resource
+//
+// Embeds the final multi-resolution application icon in the Windows executable.
+//
+// Authors:
+// worryzu <worryzu@gmail.com> @LinearTeam
+//
+// Copyright (C) 2026 Evarentha
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+IDI_ICON1 ICON "branding/flattencom.ico"

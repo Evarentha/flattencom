@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OpenSessionParams",
+  "description": "open_session parameters; omitted serial settings default to 115200 8N1.",
+  "type": "object",
+  "properties": {
+    "baud": {
+      "description": "Baud rate.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "buffer_max_bytes": {
+      "description": "Maximum retained bytes.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "buffer_max_frames": {
+      "description": "Maximum retained frame count.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint",
+      "minimum": 0
+    },
+    "data_bits": {
+      "description": "Data bits: five, six, seven or eight.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "exclusive": {
+      "description": "Open exclusively.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "flow_control": {
+      "description": "Flow control: none, software or hardware.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "label": {
+      "description": "Session label.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parity": {
+      "description": "Parity: none, odd, even, mark or space.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "path": {
+      "description": "Physical port path (/dev/ttyUSB0 or COM3) or virtual URI (virtual://echo).",
+      "type": "string"
+    },
+    "read_timeout_ms": {
+      "description": "Read timeout in milliseconds, default 10, maximum 1000.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "record_keep_segments": {
+      "description": "Older text segments to retain. Omit to keep all session history.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint32",
+      "minimum": 0
+    },
+    "record_rx_to": {
+      "description": "Create a new raw receive-stream file on connection (TX bytes are not included).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "record_to": {
+      "description": "Record to one .log file containing traffic and annotations. Legacy .txt and JSONL paths remain supported.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "stop_bits": {
+      "description": "Stop bits: one, one_point_five or two. one_point_five requires five data bits.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "path"
+  ]
+}

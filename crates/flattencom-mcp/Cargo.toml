@@ -1,0 +1,42 @@
+# flattencom - MCP Package Manifest
+#
+# Declares the flattencom-mcp package targets and dependencies using workspace metadata.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "flattencom-mcp"
+description = "MCP server for serial debugging"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[[bin]]
+name = "flattencom-mcp"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+flattencom-core = { path = "../flattencom-core" }
+flattencom-proto = { path = "../flattencom-proto" }
+rmcp.workspace = true
+schemars.workspace = true
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

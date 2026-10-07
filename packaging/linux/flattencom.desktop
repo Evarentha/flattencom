@@ -1,0 +1,20 @@
+# flattencom - Desktop Application Entry
+#
+# Registers the GUI executable, icon and development category with desktop launchers.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[Desktop Entry]
+Type=Application
+Name=flattencom
+GenericName=Serial Workbench
+Comment=Serial debugging with GUI, CLI and MCP
+Exec=flattencom-gui
+Icon=flattencom
+Terminal=false
+Categories=Development;Utility;
+StartupWMClass=flattencom-gui

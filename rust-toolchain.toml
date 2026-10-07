@@ -1,0 +1,13 @@
+# flattencom - Rust Toolchain Selection
+#
+# Selects the compiler channel, formatting tools and lint components.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Select the stable toolchain; distribution-only installations without rustup ignore this file.
+[toolchain]
+channel = "stable"

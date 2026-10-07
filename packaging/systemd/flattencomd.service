@@ -1,0 +1,23 @@
+# flattencom - User Service Unit
+#
+# Runs the serial background service under the user systemd service manager.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[Unit]
+Description=flattencom serial workbench daemon
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/flattencomd --foreground
+Restart=on-failure
+RestartSec=2
+Environment=RUST_LOG=info
+
+[Install]
+WantedBy=default.target

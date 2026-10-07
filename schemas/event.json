@@ -1,0 +1,724 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Event",
+  "description": "Parsed client-side server events; see RpcNotification for their wire representation.",
+  "oneOf": [
+    {
+      "description": "Port additions/removals from hotplug discovery.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "ports_changed"
+        }
+      },
+      "$ref": "#/$defs/PortsChangedEvent",
+      "required": [
+        "method"
+      ]
+    },
+    {
+      "description": "Session state changed.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "session_state"
+        }
+      },
+      "$ref": "#/$defs/SessionStateEvent",
+      "required": [
+        "method"
+      ]
+    },
+    {
+      "description": "Frame batch.",
+      "type": "object",
+      "properties": {
+        "dropped_rx": {
+          "description": "Cumulative evicted frame count.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "first_seq": {
+          "description": "Earliest sequence in the buffer.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "frames": {
+          "description": "Frames after read filtering.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FrameOut"
+          }
+        },
+        "last_seq": {
+          "description": "Latest sequence in the buffer.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "method": {
+          "type": "string",
+          "const": "frames"
+        },
+        "next_seq": {
+          "description": "Next inclusive since_seq cursor.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "session_id": {
+          "description": "Session ID.",
+          "type": "string"
+        },
+        "up_to_date": {
+          "description": "Whether all currently available frames have been read.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "method",
+        "session_id",
+        "frames",
+        "next_seq",
+        "dropped_rx",
+        "up_to_date"
+      ]
+    },
+    {
+      "description": "Statistics update.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "stats"
+        }
+      },
+      "$ref": "#/$defs/StatsEvent",
+      "required": [
+        "method"
+      ]
+    },
+    {
+      "description": "Trigger matches.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "trigger_fired"
+        }
+      },
+      "$ref": "#/$defs/TriggerFiredEvent",
+      "required": [
+        "method"
+      ]
+    },
+    {
+      "description": "Buffer overflow notification with visible eviction count.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "buffer_overflow"
+        }
+      },
+      "$ref": "#/$defs/BufferOverflowEvent",
+      "required": [
+        "method"
+      ]
+    }
+  ],
+  "$defs": {
+    "BufferLevel": {
+      "description": "Buffer usage snapshot.",
+      "type": "object",
+      "properties": {
+        "bytes": {
+          "description": "Retained byte count.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "dropped": {
+          "description": "Cumulative evicted frame count.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "first_seq": {
+          "description": "Earliest retained sequence, or null if empty.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "frames": {
+          "description": "Retained frame count.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "last_seq": {
+          "description": "Latest retained sequence, or null if empty.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "frames",
+        "bytes",
+        "dropped"
+      ]
+    },
+    "BufferOverflowEvent": {
+      "description": "Parameters for buffer_overflow events.",
+      "type": "object",
+      "properties": {
+        "dropped": {
+          "description": "Frames evicted in this overflow event.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "session_id": {
+          "description": "Session ID.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "dropped"
+      ]
+    },
+    "ErrorStats": {
+      "description": "Error counts classified from driver diagnostic text.",
+      "type": "object",
+      "properties": {
+        "framing": {
+          "description": "Framing errors.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "other": {
+          "description": "Other.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "overrun": {
+          "description": "Buffer overrun errors.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "parity": {
+          "description": "Parity errors.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "framing",
+        "parity",
+        "overrun",
+        "other"
+      ]
+    },
+    "FrameOut": {
+      "description": "Output frame projected to the requested format.",
+      "type": "object",
+      "properties": {
+        "decoded_fields": {
+          "description": "Decoded fields.",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "decoded_level": {
+          "description": "Decode level: info, warn or error.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decoded_text": {
+          "description": "Decoded text when decoded format is requested.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dir": {
+          "description": "Direction.",
+          "type": "string"
+        },
+        "hex": {
+          "description": "Hexadecimal data when requested.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "len": {
+          "description": "Byte count.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "mono_us": {
+          "description": "Monotonic microseconds since session start.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "seq": {
+          "description": "Sequence number.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "source": {
+          "description": "Client/trigger that initiated TX. Never inferred from device output.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "t_us": {
+          "description": "Wall-clock UNIX microseconds.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "text": {
+          "description": "Lossy UTF-8 text when requested.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "seq",
+        "dir",
+        "t_us",
+        "mono_us",
+        "len"
+      ]
+    },
+    "PortInfo": {
+      "description": "Port metadata.",
+      "type": "object",
+      "properties": {
+        "friendly_name": {
+          "description": "Display name based on product or manufacturer and USB IDs.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Transport type.",
+          "$ref": "#/$defs/PortKind"
+        },
+        "manufacturer": {
+          "description": "Manufacturer.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "path": {
+          "description": "Port path, for example /dev/ttyUSB0 or COM3.",
+          "type": "string"
+        },
+        "pid": {
+          "description": "USB product ID.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0
+        },
+        "product": {
+          "description": "Product name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "serial": {
+          "description": "Device serial number.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vid": {
+          "description": "USB vendor ID.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "path",
+        "friendly_name",
+        "kind"
+      ]
+    },
+    "PortKind": {
+      "description": "Port transport type.",
+      "oneOf": [
+        {
+          "description": "USB serial port",
+          "type": "string",
+          "const": "usb"
+        },
+        {
+          "description": "PCI serial port",
+          "type": "string",
+          "const": "pci"
+        },
+        {
+          "description": "Bluetooth serial port",
+          "type": "string",
+          "const": "bluetooth"
+        },
+        {
+          "description": "Unknown or legacy port",
+          "type": "string",
+          "const": "unknown"
+        }
+      ]
+    },
+    "PortsChangedEvent": {
+      "description": "Parameters for ports_changed events.",
+      "type": "object",
+      "properties": {
+        "added": {
+          "description": "Added ports.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PortInfo"
+          }
+        },
+        "removed": {
+          "description": "Removed port paths.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RecordingStatus": {
+      "description": "Live recording state, shared by GUI/CLI/MCP statistics.",
+      "type": "object",
+      "properties": {
+        "active": {
+          "description": "Whether at least one file is currently being recorded.",
+          "type": "boolean"
+        },
+        "errors": {
+          "description": "File errors; a failed sink stops recording and is never silently resumed.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "jsonl_path": {
+          "description": "Structured RX/TX capture path, if configured.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "readable_path": {
+          "description": "Human-readable capture path, when a .log or legacy .txt recording is selected.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "rx_path": {
+          "description": "Raw receive-stream path, if configured.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "active",
+        "errors"
+      ]
+    },
+    "SessionState": {
+      "description": "Session state.",
+      "oneOf": [
+        {
+          "description": "Connected and ready for I/O.",
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "const": "connected"
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        {
+          "description": "Reconnecting at the given attempt number.",
+          "type": "object",
+          "properties": {
+            "attempt": {
+              "description": "Attempt number, starting at 1.",
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0
+            },
+            "state": {
+              "type": "string",
+              "const": "reconnecting"
+            }
+          },
+          "required": [
+            "state",
+            "attempt"
+          ]
+        },
+        {
+          "description": "Closed normally or after reconnect attempts failed.",
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "const": "closed"
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        {
+          "description": "Unrecoverable error.",
+          "type": "object",
+          "properties": {
+            "error": {
+              "description": "Error description.",
+              "type": "string"
+            },
+            "state": {
+              "type": "string",
+              "const": "failed"
+            }
+          },
+          "required": [
+            "state",
+            "error"
+          ]
+        }
+      ]
+    },
+    "SessionStateEvent": {
+      "description": "Parameters for session_state events.",
+      "type": "object",
+      "properties": {
+        "session_id": {
+          "description": "Session ID.",
+          "type": "string"
+        },
+        "state": {
+          "description": "New state: connected, reconnecting, closed or failed.",
+          "$ref": "#/$defs/SessionState"
+        }
+      },
+      "required": [
+        "session_id",
+        "state"
+      ]
+    },
+    "SessionStats": {
+      "description": "Consistent session statistics snapshot.",
+      "type": "object",
+      "properties": {
+        "buffer": {
+          "description": "Buffer usage.",
+          "$ref": "#/$defs/BufferLevel"
+        },
+        "dropped_rx": {
+          "description": "Cumulative frames evicted from the ring buffer.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "errors": {
+          "description": "Error counts by category.",
+          "$ref": "#/$defs/ErrorStats"
+        },
+        "reconnects": {
+          "description": "Reconnect count.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "recording": {
+          "description": "Recording paths and failures, independent of display pause/filter state.",
+          "$ref": "#/$defs/RecordingStatus",
+          "default": {
+            "active": false,
+            "errors": [],
+            "jsonl_path": null,
+            "readable_path": null,
+            "rx_path": null
+          }
+        },
+        "rx_bytes": {
+          "description": "Total received bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "rx_frames": {
+          "description": "Total received frames.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "rx_rate_bps": {
+          "description": "Receive rate in bytes per second over a one-second window.",
+          "type": "number",
+          "format": "double"
+        },
+        "tx_bytes": {
+          "description": "Total transmitted bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "tx_frames": {
+          "description": "Total transmitted frames.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "tx_rate_bps": {
+          "description": "Transmit rate in bytes per second over a one-second window.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "rx_bytes",
+        "tx_bytes",
+        "rx_frames",
+        "tx_frames",
+        "reconnects",
+        "dropped_rx",
+        "errors",
+        "rx_rate_bps",
+        "tx_rate_bps",
+        "buffer"
+      ]
+    },
+    "StatsEvent": {
+      "description": "Parameters for stats events.",
+      "type": "object",
+      "properties": {
+        "session_id": {
+          "description": "Session ID.",
+          "type": "string"
+        },
+        "stats": {
+          "description": "Statistics snapshot.",
+          "$ref": "#/$defs/SessionStats"
+        }
+      },
+      "required": [
+        "session_id",
+        "stats"
+      ]
+    },
+    "TriggerFire": {
+      "description": "Trigger history; the session retains the latest 100 entries.",
+      "type": "object",
+      "properties": {
+        "matched": {
+          "description": "Matched text.",
+          "type": "string"
+        },
+        "responded": {
+          "description": "Whether a response was sent; false if the response queue was full.",
+          "type": "boolean"
+        },
+        "seq": {
+          "description": "Matched frame sequence.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "t_us": {
+          "description": "Match time in UNIX microseconds.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "trigger_id": {
+          "description": "Matched trigger ID.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trigger_id",
+        "seq",
+        "t_us",
+        "matched",
+        "responded"
+      ]
+    },
+    "TriggerFiredEvent": {
+      "description": "Parameters for trigger_fired events.",
+      "type": "object",
+      "properties": {
+        "fires": {
+          "description": "Trigger history.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TriggerFire"
+          }
+        },
+        "session_id": {
+          "description": "Session ID.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "session_id",
+        "fires"
+      ]
+    }
+  }
+}

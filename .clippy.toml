@@ -1,0 +1,12 @@
+# flattencom - Rust Lint Thresholds
+#
+# Sets Clippy argument-count thresholds alongside the workspace lint policy.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Clippy thresholds; workspace lint policy is defined in [workspace.lints].
+too-many-arguments-threshold = 10

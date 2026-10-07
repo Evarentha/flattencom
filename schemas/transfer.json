@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TransferParams",
+  "description": "Cancellable transfer or timed JSONL replay.",
+  "type": "object",
+  "properties": {
+    "chunk_size": {
+      "description": "Maximum bytes per transport command, capped at 4096.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "data": {
+      "description": "Exact UTF-8 payload.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "hex": {
+      "description": "Hexadecimal payload.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pacing_ms": {
+      "description": "Delay between chunks, capped at 5000 milliseconds.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "path": {
+      "description": "Input file; mutually exclusive with data and hex.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "replay": {
+      "description": "Interpret path as a timed JSONL capture.",
+      "type": "boolean",
+      "default": false
+    },
+    "session_id": {
+      "description": "Target session identifier.",
+      "type": "string"
+    },
+    "speed": {
+      "description": "Replay time multiplier; must be finite and positive.",
+      "type": [
+        "number",
+        "null"
+      ],
+      "format": "double"
+    }
+  },
+  "required": [
+    "session_id"
+  ]
+}

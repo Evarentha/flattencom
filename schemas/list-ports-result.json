@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ListPortsResult",
+  "description": "Result of list_ports.",
+  "type": "object",
+  "properties": {
+    "ports": {
+      "description": "Port list sorted by path.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/PortEntry"
+      }
+    }
+  },
+  "required": [
+    "ports"
+  ],
+  "$defs": {
+    "PortEntry": {
+      "description": "Port metadata and ownership state.",
+      "type": "object",
+      "properties": {
+        "busy": {
+          "description": "Whether a session in this service owns the port.",
+          "type": "boolean"
+        },
+        "friendly_name": {
+          "description": "Display name based on product or manufacturer and USB IDs.",
+          "type": "string"
+        },
+        "kind": {
+          "description": "Transport type.",
+          "$ref": "#/$defs/PortKind"
+        },
+        "manufacturer": {
+          "description": "Manufacturer.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "path": {
+          "description": "Port path, for example /dev/ttyUSB0 or COM3.",
+          "type": "string"
+        },
+        "pid": {
+          "description": "USB product ID.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0
+        },
+        "product": {
+          "description": "Product name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "serial": {
+          "description": "Device serial number.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sessions": {
+          "description": "IDs of sessions using this port.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "vid": {
+          "description": "USB vendor ID.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "path",
+        "friendly_name",
+        "kind",
+        "busy"
+      ]
+    },
+    "PortKind": {
+      "description": "Port transport type.",
+      "oneOf": [
+        {
+          "description": "USB serial port",
+          "type": "string",
+          "const": "usb"
+        },
+        {
+          "description": "PCI serial port",
+          "type": "string",
+          "const": "pci"
+        },
+        {
+          "description": "Bluetooth serial port",
+          "type": "string",
+          "const": "bluetooth"
+        },
+        {
+          "description": "Unknown or legacy port",
+          "type": "string",
+          "const": "unknown"
+        }
+      ]
+    }
+  }
+}

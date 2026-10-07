@@ -1,0 +1,53 @@
+# flattencom - Repository Ignore Rules
+#
+# Excludes build outputs, editor files and runtime serial data from source control.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Build artifacts
+/target
+/build
+/dist
+core
+core.*
+*.pyc
+__pycache__/
+/crates/*/target
+**/*.rs.bk
+
+# Qt GUI
+gui/build*/
+gui/CMakeUserPresets.json
+
+# Local package-manager output
+/pkg/
+/packaging/arch/pkg/
+/packaging/arch/src/
+*.pkg.tar.*
+
+# IDE and operating-system files
+.idea/
+.vscode/
+*.swp
+*.kate-swp
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Runtime data (not committed)
+*.token
+*.log
+*.log.*
+/captures/
+/exports/
+flattencom-issue*.txt
+
+# Local planning and audit documents (not committed or packaged)
+/local-docs/

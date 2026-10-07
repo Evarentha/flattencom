@@ -1,0 +1,15 @@
+{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "result": {
+    "frames": [
+      {"seq": 0, "dir": "tx", "t_us": 1700000000000000, "mono_us": 0, "len": 4, "hex": "41 54 0D 0A", "text": "AT\r\n", "decoded_text": "AT␍␊", "decoded_level": "info", "decoded_fields": {"len":"4"}},
+      {"seq": 1, "dir": "rx", "t_us": 1700000000010000, "mono_us": 10000, "len": 4, "hex": "4F 4B 0D 0A", "text": "OK\r\n"}
+    ],
+    "next_seq": 2,
+    "dropped_rx": 0,
+    "up_to_date": true,
+    "first_seq": 0,
+    "last_seq": 1
+  }
+}

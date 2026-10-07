@@ -1,0 +1,13 @@
+# flattencom - Rust Formatting Rules
+#
+# Configures Rust line width and small-item formatting heuristics.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# rustfmt defaults with a wider line limit for protocol examples.
+max_width = 100
+use_small_heuristics = "Default"

@@ -1,0 +1,55 @@
+# flattencom - CORE Package Manifest
+#
+# Declares the flattencom-core package targets and dependencies using workspace metadata.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "flattencom-core"
+description = "Synchronous serial engine with decoding, filtering, triggers and capture"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+regex.workspace = true
+hex.workspace = true
+chrono.workspace = true
+serialport.workspace = true
+schemars.workspace = true
+tracing.workspace = true
+tempfile.workspace = true
+same-file = "1"
+process-wrap = { version = "10.0.1", default-features = false, features = ["std", "process-group", "job-object", "creation-flags"] }
+wasmi = { version = "2", default-features = false, features = ["std", "stable", "wat", "validate", "portable-dispatch"] }
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[target.'cfg(unix)'.dependencies]
+nix-io = { package = "nix", version = "0.31", default-features = false, features = ["fs"] }
+
+[target.'cfg(windows)'.dependencies]
+winapi-util = "0.1"
+windows-sys = { version = "0.61", features = ["Win32_Devices_Communication", "Win32_Foundation", "Win32_Storage_FileSystem"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+rustix = { version = "1", features = ["termios"] }
+
+
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+nix = { workspace = true }

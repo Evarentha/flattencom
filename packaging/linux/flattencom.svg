@@ -1,0 +1,13 @@
+<!--
+flattencom - Application Icon
+
+Defines the scalable desktop icon used by Linux launchers and application bundles.
+
+Authors:
+worryzu <worryzu@gmail.com> @LinearTeam
+
+Copyright (C) 2026 Evarentha
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img"><title>flattencom application icon</title><rect x="8" y="8" width="240" height="240" rx="32" fill="#D94B27" /><path d="M194 66H105C67 66 46 88 46 128S67 190 105 190H194L169 160H108C86 160 78 148 78 128S86 96 108 96H169Z" fill="#EAE6DC" /></svg>

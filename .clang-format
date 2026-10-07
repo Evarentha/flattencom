@@ -1,0 +1,15 @@
+# flattencom - C++ Formatting Rules
+#
+# Configures LLVM-based indentation, line width and control-statement formatting.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 110
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false

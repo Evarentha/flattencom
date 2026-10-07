@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RpcRequest",
+  "description": "JSON-RPC request.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Caller-selected request ID used to correlate responses.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "jsonrpc": {
+      "description": "Always `\"2.0\"`.",
+      "type": "string"
+    },
+    "method": {
+      "description": "Method name.",
+      "type": "string"
+    },
+    "params": {
+      "description": "Parameter object, optionally empty."
+    }
+  },
+  "required": [
+    "jsonrpc",
+    "id",
+    "method"
+  ]
+}

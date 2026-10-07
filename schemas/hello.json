@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HelloParams",
+  "description": "hello: authenticated connection handshake.",
+  "type": "object",
+  "properties": {
+    "client": {
+      "description": "Client label used for operation attribution; at most 256 UTF-8 bytes.",
+      "type": "string"
+    },
+    "proto": {
+      "description": "Protocol version; must match PROTOCOL_VERSION.",
+      "type": "integer",
+      "format": "uint32",
+      "minimum": 0
+    },
+    "token": {
+      "description": "Authentication token from daemon.token.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null
+    },
+    "version": {
+      "description": "Client version.",
+      "type": "string",
+      "default": ""
+    }
+  },
+  "required": [
+    "client",
+    "proto"
+  ]
+}

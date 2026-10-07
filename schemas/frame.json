@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FrameOut",
+  "description": "Output frame projected to the requested format.",
+  "type": "object",
+  "properties": {
+    "decoded_fields": {
+      "description": "Decoded fields.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "decoded_level": {
+      "description": "Decode level: info, warn or error.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "decoded_text": {
+      "description": "Decoded text when decoded format is requested.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dir": {
+      "description": "Direction.",
+      "type": "string"
+    },
+    "hex": {
+      "description": "Hexadecimal data when requested.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "len": {
+      "description": "Byte count.",
+      "type": "integer",
+      "format": "uint",
+      "minimum": 0
+    },
+    "mono_us": {
+      "description": "Monotonic microseconds since session start.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "seq": {
+      "description": "Sequence number.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "source": {
+      "description": "Client/trigger that initiated TX. Never inferred from device output.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "t_us": {
+      "description": "Wall-clock UNIX microseconds.",
+      "type": "integer",
+      "format": "int64"
+    },
+    "text": {
+      "description": "Lossy UTF-8 text when requested.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "seq",
+    "dir",
+    "t_us",
+    "mono_us",
+    "len"
+  ]
+}

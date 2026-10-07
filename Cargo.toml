@@ -1,0 +1,99 @@
+# flattencom - Rust Workspace Manifest
+#
+# Defines shared packages, dependencies, lint settings and release build configuration.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[workspace]
+resolver = "3"
+members = [
+    "crates/flattencom-core",
+    "crates/flattencom-proto",
+    "crates/flattencomd",
+    "crates/flattencom-cli",
+    "crates/flattencom-mcp",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2024"
+license = "GPL-3.0-or-later"
+authors = ["Evarentha"]
+rust-version = "1.98"
+description = "Serial debugging workbench for Linux and Windows: a Qt desktop, CLI/TUI and MCP bridge over a shared local background service"
+repository = "https://github.com/Evarentha/flattencom"
+homepage = "https://github.com/Evarentha/flattencom"
+
+[workspace.dependencies]
+# Serialization and error handling
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+# Infrastructure
+uuid = { version = "1", features = ["v7", "serde"] }
+regex = "1"
+hex = "0.4"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+dirs = "6"
+libc = "0.2"
+# Async runtime for daemon/CLI/MCP; the core engine remains synchronous.
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-util", "sync", "time", "signal", "process"] }
+# Serial ports
+serialport = "4"
+# CLI
+clap = { version = "4", features = ["derive", "wrap_help", "string"] }
+clap_complete = "4"
+# TUI: use ratatui's crossterm re-export to avoid version mismatches.
+ratatui = "0.29"
+# MCP (official Rust SDK)
+rmcp = { version = "3.4", features = ["server", "transport-io", "macros", "schemars"] }
+schemars = "1"
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "std"] }
+# Tests
+tempfile = "3"
+# Linux-only dependencies (including PTY integration tests)
+nix = { version = "0.29", features = ["term"] }
+
+[workspace.lints.rust]
+missing_docs = "warn"
+rust_2018_idioms = "warn"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+cast_possible_truncation = "allow"
+cast_precision_loss = "allow"
+# Public RPC methods document error types in PROTOCOL.md; avoids duplicating a
+# generic Errors/Panics section on each serde helper and generated MCP adapter.
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+# Actor tasks deliberately own Arc/channel handles; protocol patches need
+# Option<Option<T>> to distinguish an absent field from an explicit null.
+needless_pass_by_value = "allow"
+option_option = "allow"
+# Physical signal pins and UI state naturally contain independent booleans.
+struct_excessive_bools = "allow"
+too_many_lines = "allow"
+must_use_candidate = "allow"
+unused_async_trait_impl = "allow"
+similar_names = "allow"
+# CJK documentation does not obey the English-word heuristics of doc_markdown.
+doc_markdown = "allow"
+# Explicit fallback arms keep the small serial state machines readable.
+single_match_else = "allow"
+manual_let_else = "allow"
+items_after_statements = "allow"
+many_single_char_names = "allow"
+# A small UART sample does not warrant a SIMD bytecount dependency.
+naive_bytecount = "allow"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "symbols"

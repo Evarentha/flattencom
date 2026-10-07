@@ -1,0 +1,29 @@
+<!--
+flattencom - Qt Resource Manifest
+
+Embeds the keyword rules, Chinese translations and final branding artwork.
+
+Authors:
+worryzu <worryzu@gmail.com> @LinearTeam
+
+Copyright (C) 2026 Evarentha
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
+<RCC>
+  <qresource prefix="/flattencom">
+    <file>log-rules.json</file>
+    <file>zh_CN.json</file>
+    <file>branding/logo-light.png</file>
+    <file>branding/logo-dark.png</file>
+    <file>branding/icon-16.png</file>
+    <file>branding/icon-24.png</file>
+    <file>branding/icon-32.png</file>
+    <file>branding/icon-48.png</file>
+    <file>branding/icon-64.png</file>
+    <file>branding/icon-128.png</file>
+    <file>branding/icon-256.png</file>
+    <file>branding/icon-512.png</file>
+    <file>branding/icon-1024.png</file>
+  </qresource>
+</RCC>

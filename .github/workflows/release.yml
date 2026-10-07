@@ -1,0 +1,51 @@
+# flattencom - Release Artifact Workflow
+#
+# Builds and uploads Linux and Windows release packages after verification.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Release artifacts
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libudev-dev pkg-config ninja-build libgl1-mesa-dev libxkbcommon-dev
+      - if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+      - uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.3'
+          cache: true
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - if: runner.os == 'Linux'
+        run: python scripts/package.py --generator TGZ --deploy-qt
+      - if: runner.os == 'Windows'
+        run: python scripts/package.py --generator ZIP --deploy-qt
+      - run: python scripts/gui-smoke.py --bin-dir target/release --gui gui/build/release/flattencom-gui
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flattencom-${{ runner.os }}
+          path: |
+            dist/*.tar.gz
+            dist/*.zip
+            dist/*.msi
+            dist/SHA256SUMS

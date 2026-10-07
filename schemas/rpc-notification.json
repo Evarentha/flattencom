@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RpcNotification",
+  "description": "Server-to-client JSON-RPC notification.",
+  "type": "object",
+  "properties": {
+    "jsonrpc": {
+      "description": "Always `\"2.0\"`.",
+      "type": "string"
+    },
+    "method": {
+      "description": "Event name; see Event.",
+      "type": "string"
+    },
+    "params": {
+      "description": "Event parameters.",
+      "default": null
+    }
+  },
+  "required": [
+    "jsonrpc",
+    "method"
+  ]
+}

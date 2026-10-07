@@ -1,0 +1,47 @@
+# flattencom - CLI Package Manifest
+#
+# Declares the flattencom-cli package targets and dependencies using workspace metadata.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "flattencom-cli"
+description = "Serial debugging CLI and interactive terminal monitor"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[[bin]]
+name = "flattencom"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+flattencom-core = { path = "../flattencom-core" }
+flattencom-proto = { path = "../flattencom-proto" }
+clap.workspace = true
+clap_complete.workspace = true
+tokio.workspace = true
+serde_json.workspace = true
+ratatui.workspace = true
+regex.workspace = true
+hex.workspace = true
+ctrlc = { version = "3", features = ["termination"] }
+tracing-subscriber.workspace = true
+unicode-segmentation = "1.13.3"
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[target.'cfg(unix)'.dev-dependencies]
+nix = { workspace = true, features = ["poll", "signal"] }

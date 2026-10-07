@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SendParams",
+  "description": "Parameters for `send`.",
+  "type": "object",
+  "properties": {
+    "data": {
+      "description": "Text payload, mutually exclusive with hex.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "hex": {
+      "description": "Hexadecimal payload allowing whitespace; mutually exclusive with data.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "newline": {
+      "description": "Appended line ending, default crlf.",
+      "$ref": "#/$defs/NewlineStyle",
+      "default": "crlf"
+    },
+    "session_id": {
+      "description": "Session ID.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "session_id"
+  ],
+  "$defs": {
+    "NewlineStyle": {
+      "description": "Line-ending style for the send newline parameter.",
+      "oneOf": [
+        {
+          "description": "Append CRLF, commonly required by serial devices.",
+          "type": "string",
+          "const": "crlf"
+        },
+        {
+          "description": "Append LF.",
+          "type": "string",
+          "const": "lf"
+        },
+        {
+          "description": "Append CR for legacy devices.",
+          "type": "string",
+          "const": "cr"
+        },
+        {
+          "description": "Send unchanged without a line ending.",
+          "type": "string",
+          "const": "none"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReadFramesParams",
+  "description": "Parameters for `read_frames`.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "description": "Output format, default decoded.",
+      "$ref": "#/$defs/FrameFormat",
+      "default": "decoded"
+    },
+    "last_ms": {
+      "description": "Restrict to the last N milliseconds, intersecting any since_seq bound.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "max_bytes": {
+      "description": "Soft output-size limit, default 256 KiB.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "session_id": {
+      "description": "Session ID.",
+      "type": "string"
+    },
+    "since_seq": {
+      "description": "Inclusive next-unread sequence; None starts at the buffer head.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint64",
+      "minimum": 0
+    },
+    "tail": {
+      "description": "Select a bounded tail window while respecting any since_seq lower bound.",
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "session_id"
+  ],
+  "$defs": {
+    "FrameFormat": {
+      "description": "Frame output format.",
+      "oneOf": [
+        {
+          "description": "Base fields only: sequence, direction, timestamps and length.",
+          "type": "string",
+          "const": "raw"
+        },
+        {
+          "description": "Base fields and hex bytes.",
+          "type": "string",
+          "const": "hex"
+        },
+        {
+          "description": "Base fields, hex bytes and lossy text.",
+          "type": "string",
+          "const": "text"
+        },
+        {
+          "description": "Complete output: hex, text, decoded results and fields (default).",
+          "type": "string",
+          "const": "decoded"
+        }
+      ]
+    }
+  }
+}

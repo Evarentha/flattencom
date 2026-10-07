@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RpcResponse",
+  "description": "JSON-RPC response.",
+  "type": "object",
+  "properties": {
+    "error": {
+      "description": "Error, mutually exclusive with result.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RpcError"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "id": {
+      "description": "ID of the corresponding request.",
+      "type": "integer",
+      "format": "uint64",
+      "minimum": 0
+    },
+    "jsonrpc": {
+      "description": "Always `\"2.0\"`.",
+      "type": "string"
+    },
+    "result": {
+      "description": "Result, mutually exclusive with error."
+    }
+  },
+  "required": [
+    "jsonrpc",
+    "id"
+  ],
+  "$defs": {
+    "RpcError": {
+      "description": "RPC error object.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code; see error_code and docs/PROTOCOL.md.",
+          "type": "integer",
+          "format": "int64"
+        },
+        "data": {
+          "description": "Structured details including the core error category."
+        },
+        "message": {
+          "description": "Readable localized message with recovery guidance.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    }
+  }
+}

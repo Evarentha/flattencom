@@ -1,0 +1,41 @@
+# flattencom - Service Package Manifest
+#
+# Declares the serial background service binary and its workspace dependencies.
+#
+# Authors:
+# worryzu <worryzu@gmail.com> @LinearTeam
+#
+# Copyright (C) 2026 Evarentha
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "flattencomd"
+description = "Background service for shared serial sessions"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[[bin]]
+name = "flattencomd"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+flattencom-core = { path = "../flattencom-core" }
+flattencom-proto = { path = "../flattencom-proto" }
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+hex.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+uuid.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

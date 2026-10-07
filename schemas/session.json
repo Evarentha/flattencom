@@ -1,0 +1,634 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SessionSummary",
+  "description": "Session summary returned by session methods and events.",
+  "type": "object",
+  "properties": {
+    "config": {
+      "description": "Complete configuration.",
+      "$ref": "#/$defs/SerialConfig"
+    },
+    "label": {
+      "description": "User-defined label.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "owner": {
+      "description": "Owning client label.",
+      "type": "string"
+    },
+    "path": {
+      "description": "Port path.",
+      "type": "string"
+    },
+    "session_id": {
+      "description": "Session ID.",
+      "type": "string"
+    },
+    "state": {
+      "description": "Current state.",
+      "$ref": "#/$defs/SessionState"
+    },
+    "stats": {
+      "description": "Statistics snapshot.",
+      "$ref": "#/$defs/SessionStats"
+    }
+  },
+  "required": [
+    "session_id",
+    "path",
+    "owner",
+    "config",
+    "state",
+    "stats"
+  ],
+  "$defs": {
+    "BufferLevel": {
+      "description": "Buffer usage snapshot.",
+      "type": "object",
+      "properties": {
+        "bytes": {
+          "description": "Retained byte count.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "dropped": {
+          "description": "Cumulative evicted frame count.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "first_seq": {
+          "description": "Earliest retained sequence, or null if empty.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        },
+        "frames": {
+          "description": "Retained frame count.",
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "last_seq": {
+          "description": "Latest retained sequence, or null if empty.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "frames",
+        "bytes",
+        "dropped"
+      ]
+    },
+    "BufferPolicy": {
+      "description": "Ring buffer limits; oldest frames are evicted when a limit is reached.",
+      "type": "object",
+      "properties": {
+        "max_bytes": {
+          "description": "Maximum retained bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "default": 67108864,
+          "minimum": 0
+        },
+        "max_frames": {
+          "description": "Maximum retained frame count.",
+          "type": "integer",
+          "format": "uint",
+          "default": 100000,
+          "minimum": 0
+        }
+      }
+    },
+    "DataBits": {
+      "description": "Data bits.",
+      "oneOf": [
+        {
+          "description": "5 bits",
+          "type": "string",
+          "const": "five"
+        },
+        {
+          "description": "6 bits",
+          "type": "string",
+          "const": "six"
+        },
+        {
+          "description": "7 bits",
+          "type": "string",
+          "const": "seven"
+        },
+        {
+          "description": "8 bits (default)",
+          "type": "string",
+          "const": "eight"
+        }
+      ]
+    },
+    "DeviceIdentity": {
+      "description": "Stable USB identity. VID/PID alone cannot distinguish two identical adapters.",
+      "type": "object",
+      "properties": {
+        "pid": {
+          "description": "USB product ID.",
+          "type": "integer",
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0
+        },
+        "serial": {
+          "description": "Nonempty USB serial number.",
+          "type": "string"
+        },
+        "vid": {
+          "description": "USB vendor ID.",
+          "type": "integer",
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "vid",
+        "pid",
+        "serial"
+      ]
+    },
+    "ErrorStats": {
+      "description": "Error counts classified from driver diagnostic text.",
+      "type": "object",
+      "properties": {
+        "framing": {
+          "description": "Framing errors.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "other": {
+          "description": "Other.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "overrun": {
+          "description": "Buffer overrun errors.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "parity": {
+          "description": "Parity errors.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "framing",
+        "parity",
+        "overrun",
+        "other"
+      ]
+    },
+    "FlowControl": {
+      "description": "Flow control.",
+      "oneOf": [
+        {
+          "description": "No flow control (default)",
+          "type": "string",
+          "const": "none"
+        },
+        {
+          "description": "Software (XON/XOFF)",
+          "type": "string",
+          "const": "software"
+        },
+        {
+          "description": "Hardware (RTS/CTS)",
+          "type": "string",
+          "const": "hardware"
+        }
+      ]
+    },
+    "Parity": {
+      "description": "Parity.",
+      "oneOf": [
+        {
+          "description": "No parity (default)",
+          "type": "string",
+          "const": "none"
+        },
+        {
+          "description": "Odd parity",
+          "type": "string",
+          "const": "odd"
+        },
+        {
+          "description": "Even parity",
+          "type": "string",
+          "const": "even"
+        },
+        {
+          "description": "Mark parity (always 1)",
+          "type": "string",
+          "const": "mark"
+        },
+        {
+          "description": "Space parity (always 0)",
+          "type": "string",
+          "const": "space"
+        }
+      ]
+    },
+    "ReconnectPolicy": {
+      "description": "Reconnect policy after a transport read failure.\n\nEnabled by default: 10 attempts, 200 ms initial delay, 5 s maximum.\nSession history is retained across reconnects.",
+      "oneOf": [
+        {
+          "description": "Do not reconnect automatically.",
+          "type": "object",
+          "properties": {
+            "mode": {
+              "type": "string",
+              "const": "disabled"
+            }
+          },
+          "required": [
+            "mode"
+          ]
+        },
+        {
+          "description": "Reconnect automatically.",
+          "type": "object",
+          "properties": {
+            "initial_ms": {
+              "description": "Initial retry delay in milliseconds.",
+              "type": "integer",
+              "format": "uint64",
+              "default": 200,
+              "minimum": 0
+            },
+            "max_attempts": {
+              "description": "Maximum retry count.",
+              "type": "integer",
+              "format": "uint32",
+              "default": 10,
+              "minimum": 0
+            },
+            "max_ms": {
+              "description": "Maximum retry delay in milliseconds.",
+              "type": "integer",
+              "format": "uint64",
+              "default": 5000,
+              "minimum": 0
+            },
+            "mode": {
+              "type": "string",
+              "const": "enabled"
+            }
+          },
+          "required": [
+            "mode"
+          ]
+        }
+      ]
+    },
+    "RecordingStatus": {
+      "description": "Live recording state, shared by GUI/CLI/MCP statistics.",
+      "type": "object",
+      "properties": {
+        "active": {
+          "description": "Whether at least one file is currently being recorded.",
+          "type": "boolean"
+        },
+        "errors": {
+          "description": "File errors; a failed sink stops recording and is never silently resumed.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "jsonl_path": {
+          "description": "Structured RX/TX capture path, if configured.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "readable_path": {
+          "description": "Human-readable capture path, when a .log or legacy .txt recording is selected.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "rx_path": {
+          "description": "Raw receive-stream path, if configured.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "active",
+        "errors"
+      ]
+    },
+    "SerialConfig": {
+      "description": "Serial session configuration.\n\nPath accepts physical ports (/dev/ttyUSB0, COM3) or virtual ports (virtual://echo,\nvirtual://gen?bps=115200). See the transport module.",
+      "type": "object",
+      "properties": {
+        "auto_reconnect": {
+          "description": "Reconnect automatically.",
+          "$ref": "#/$defs/ReconnectPolicy",
+          "default": {
+            "initial_ms": 200,
+            "max_attempts": 10,
+            "max_ms": 5000,
+            "mode": "enabled"
+          }
+        },
+        "baud": {
+          "description": "Baud rate; nonstandard values depend on driver support.",
+          "type": "integer",
+          "format": "uint32",
+          "default": 115200,
+          "minimum": 0
+        },
+        "buffer": {
+          "description": "Receive ring buffer limits.",
+          "$ref": "#/$defs/BufferPolicy",
+          "default": {
+            "max_bytes": 67108864,
+            "max_frames": 100000
+          }
+        },
+        "data_bits": {
+          "description": "Data bits.",
+          "$ref": "#/$defs/DataBits",
+          "default": "eight"
+        },
+        "device_identity": {
+          "description": "Captured hardware identity used on reconnect; absent for devices without a unique serial.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DeviceIdentity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "exclusive": {
+          "description": "Open exclusively; uses TIOCEXCL on Linux.",
+          "type": "boolean",
+          "default": true
+        },
+        "flow_control": {
+          "description": "Flow control.",
+          "$ref": "#/$defs/FlowControl",
+          "default": "none"
+        },
+        "label": {
+          "description": "Session label displayed in the GUI.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "parity": {
+          "description": "Parity.",
+          "$ref": "#/$defs/Parity",
+          "default": "none"
+        },
+        "path": {
+          "description": "Port path or virtual port URI.",
+          "type": "string"
+        },
+        "read_timeout_ms": {
+          "description": "Read timeout in milliseconds (1 to 1000).\n\nReader and writer share the transport handle; reads may delay writes.\nDefault: 10 ms.",
+          "type": "integer",
+          "format": "uint64",
+          "default": 10,
+          "minimum": 0
+        },
+        "record_keep_segments": {
+          "description": "Optional number of older text segments to retain. None keeps the full session.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0
+        },
+        "record_rx_to": {
+          "description": "New raw RX byte-stream file. Unlike JSONL this contains no added timestamps or TX data.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "record_to": {
+          "description": "Record to one .log capture. Legacy .txt and explicit JSONL paths are also accepted.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stop_bits": {
+          "description": "Stop bits.",
+          "$ref": "#/$defs/StopBits",
+          "default": "one"
+        }
+      },
+      "required": [
+        "path"
+      ]
+    },
+    "SessionState": {
+      "description": "Session state.",
+      "oneOf": [
+        {
+          "description": "Connected and ready for I/O.",
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "const": "connected"
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        {
+          "description": "Reconnecting at the given attempt number.",
+          "type": "object",
+          "properties": {
+            "attempt": {
+              "description": "Attempt number, starting at 1.",
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0
+            },
+            "state": {
+              "type": "string",
+              "const": "reconnecting"
+            }
+          },
+          "required": [
+            "state",
+            "attempt"
+          ]
+        },
+        {
+          "description": "Closed normally or after reconnect attempts failed.",
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "const": "closed"
+            }
+          },
+          "required": [
+            "state"
+          ]
+        },
+        {
+          "description": "Unrecoverable error.",
+          "type": "object",
+          "properties": {
+            "error": {
+              "description": "Error description.",
+              "type": "string"
+            },
+            "state": {
+              "type": "string",
+              "const": "failed"
+            }
+          },
+          "required": [
+            "state",
+            "error"
+          ]
+        }
+      ]
+    },
+    "SessionStats": {
+      "description": "Consistent session statistics snapshot.",
+      "type": "object",
+      "properties": {
+        "buffer": {
+          "description": "Buffer usage.",
+          "$ref": "#/$defs/BufferLevel"
+        },
+        "dropped_rx": {
+          "description": "Cumulative frames evicted from the ring buffer.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "errors": {
+          "description": "Error counts by category.",
+          "$ref": "#/$defs/ErrorStats"
+        },
+        "reconnects": {
+          "description": "Reconnect count.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "recording": {
+          "description": "Recording paths and failures, independent of display pause/filter state.",
+          "$ref": "#/$defs/RecordingStatus",
+          "default": {
+            "active": false,
+            "errors": [],
+            "jsonl_path": null,
+            "readable_path": null,
+            "rx_path": null
+          }
+        },
+        "rx_bytes": {
+          "description": "Total received bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "rx_frames": {
+          "description": "Total received frames.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "rx_rate_bps": {
+          "description": "Receive rate in bytes per second over a one-second window.",
+          "type": "number",
+          "format": "double"
+        },
+        "tx_bytes": {
+          "description": "Total transmitted bytes.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "tx_frames": {
+          "description": "Total transmitted frames.",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "tx_rate_bps": {
+          "description": "Transmit rate in bytes per second over a one-second window.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "rx_bytes",
+        "tx_bytes",
+        "rx_frames",
+        "tx_frames",
+        "reconnects",
+        "dropped_rx",
+        "errors",
+        "rx_rate_bps",
+        "tx_rate_bps",
+        "buffer"
+      ]
+    },
+    "StopBits": {
+      "description": "Stop bits.",
+      "oneOf": [
+        {
+          "description": "1 bit (default)",
+          "type": "string",
+          "const": "one"
+        },
+        {
+          "description": "1.5 bits; requires five data bits.",
+          "type": "string",
+          "const": "one_point_five"
+        },
+        {
+          "description": "2 bits",
+          "type": "string",
+          "const": "two"
+        }
+      ]
+    }
+  }
+}
