@@ -111,7 +111,7 @@ Cargo does not rewrite member versions in `Cargo.lock` during metadata queries, 
 
 `python3 scripts/check-version.py gui/build/release` rejects a repeated literal in any consumer, a lockfile that still names an older version and a build tree configured with a different version.
 
-Release tags are `v` followed by that exact version, created as annotated tags on an already verified commit. Deleting or moving a published tag breaks that correspondence; a changed codebase is a new version. `.github/workflows/release.yml` builds Linux and Windows artifacts when a `v` tag is pushed and publishes nothing by itself.
+Release tags are `v` followed by that exact version, created as annotated tags on an already verified commit. Deleting or moving a published tag breaks that correspondence; a changed codebase is a new version. `.github/workflows/release.yml` builds Linux and Windows artifacts when a `v` tag is pushed, then attaches them to a GitHub Release for that tag with one combined `SHA256SUMS`. A manual run on a branch builds the same artifacts without publishing them; signing and store submission remain separate.
 
 ## Behavior and limits
 
