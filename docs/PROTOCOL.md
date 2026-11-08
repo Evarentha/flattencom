@@ -123,7 +123,7 @@ the previous serial settings. This limit is separate from the 256-byte hello cli
 
 An active/reconnecting matching device returns reused=true without changing its settings, owner or captures. Failed/closed entries are not reused. The opening transaction is serialized separately from the session table, which is not held across device IO. Reconnect preserves the same session and sequences; service restart does not.
 
-send requires exactly one data or hex. Text defaults to CRLF; HEX gets no suffix unless newline is explicitly supplied. newline accepts crlf/lf/cr/none. Maximum core payload, including the suffix, is 1 MiB; use start_transfer for larger work. TX records track successful driver writes. Partial writes may leave TX evidence even when the call returns an error.
+send requires exactly one data or hex. Text defaults to CRLF; HEX gets no suffix unless newline is explicitly supplied. newline accepts crlf/lf/cr/none. Maximum core payload, including the suffix, is 1 MiB; use start_transfer for larger work. TX records track successful driver writes. Partial writes may record TX bytes even when the call returns an error.
 
 `clear_buffer` removes retained main-buffer frames. `flush_rx` also clears driver input and excludes pre-flush queued/decoding RX from subsequent memory reads; newly received data can appear immediately. Neither operation deletes recording files. RX already read into the processing queue still reaches the recorder. The returned `cleared` count covers retained frames removed, not driver bytes or pending chunks.
 

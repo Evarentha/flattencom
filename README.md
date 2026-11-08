@@ -26,9 +26,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
   Serial debugging workbench for <b>Linux and Windows</b>: a Qt desktop, CLI/TUI and MCP bridge over a shared local background service.
 </p>
 
-## Start using it
+## Quick start
 
-Extract the package and launch `bin/flattencom-gui` (Windows: `bin\flattencom-gui.exe`). Keep the Windows DLLs and `platforms` directory together. A Linux TGZ built without Qt deployment requires system Qt. Choose **File > Open port**, confirm the serial settings and recording directory, then connect. New GUI sessions record readable `.log` files by default.
+Prebuilt binaries are located under `bin/`. Run `bin/flattencom-gui` (or `binlattencom-gui.exe` on Windows). On Windows, keep companion DLLs and the `platforms/` directory adjacent to the executable. On Linux, ensure Qt 6 runtime libraries are present.
+
+Open a connection via **File > Open port**, select baud rate, framing, and target logging directory, then connect. Active sessions stream to the viewport and write plaintext `.log` records by default.
 
 To build on Linux, install Rust 1.98+, CMake 3.24+, Qt 6.5+ Widgets/Network/Test, Ninja, a C++20 compiler, libudev development files and pkg-config. On Debian/Ubuntu with a separately installed Qt SDK, also install `libgl1-mesa-dev` and `libxkbcommon-dev`. Project scripts require Python 3.9+. From the repository root:
 
@@ -88,7 +90,7 @@ For clients supporting `mcpServers`, replace the executable path in this example
 {"mcpServers":{"flattencom":{"command":"/absolute/path/to/flattencom-mcp","args":["--lang","en"]}}}
 ```
 
-Use `.exe` on Windows. **Help > MCP setup** shows a generic local snippet. Start with list_ports/list_sessions, then open_port, send, read_frames and read_sent. A running bridge recovers its backend connection; writes with unknown outcomes are not automatically replayed. Shared selections are fixed text snapshots; enforcing one-selection access requires `flattencom-mcp --selection SELECTION_ID`. Details: [MCP](docs/MCP.md).
+Use `.exe` on Windows. **Help > MCP setup** shows a generic local snippet. Start with list_ports/list_sessions, then open_port, send, read_frames and read_sent. A running bridge recovers its backend connection; writes with unknown outcomes are not automatically replayed. Shared selections are static text snapshots; enforcing one-selection access requires `flattencom-mcp --selection SELECTION_ID`. Details: [MCP](docs/MCP.md).
 
 English is the default. **View > Language** switches in place; `--lang zh-CN` and FLATTENCOM_LANG select Chinese for supported clients. **View > Theme** offers Follow system, Light and Dark. Device bytes and protocol identifiers are not translated. Environment settings and precedence: [Internationalization](docs/I18N.md), [Troubleshooting](docs/TROUBLESHOOTING.md).
 

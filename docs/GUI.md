@@ -1,7 +1,7 @@
 <!--
 flattencom - Gui Guide
 
-Documents desktop controls, session workflows, history navigation, recording and evidence export.
+Documents desktop controls, session workflows, history navigation, recording and snippet export.
 
 Authors:
 worryzu <worryzu@gmail.com> @LinearTeam
@@ -59,7 +59,7 @@ Parity offers None, Odd, Even, Mark (always 1) and Space (always 0). Stop bits o
 
 **Tools > Rules** edits local display highlighting, not device behavior. **Tools > Triggers** edits backend frame matches and response/event/program actions. **Decoder options / plugins** configures decoding, Modbus role, process arguments and WASM fuel. These backend settings affect all clients of the session.
 
-## Markers, reset and selected evidence
+## Markers, reset and selected snippet
 
 Mark creates an annotation at the selected sequence or current tail. Hold Shift while activating **Mark** to enter a label. Markers/boots can locate retained or saved history. Boot counts are based on recognized banners such as U-Boot, Linux, ESP-ROM and Zephyr.
 

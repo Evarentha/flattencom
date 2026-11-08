@@ -26,9 +26,11 @@ SPDX-License-Identifier: GPL-3.0-or-later
   面向 <b>Linux 和 Windows</b> 的串口调试工作台：Qt 桌面、CLI/TUI 与 MCP 桥接共用同一本地后台服务。
 </p>
 
-## 开始使用
+## 快速开始
 
-完整解压安装包，启动 `bin/flattencom-gui`（Windows：`bin\flattencom-gui.exe`）。Windows 需保留全部 DLL 和 `platforms` 目录。未部署 Qt 的 Linux TGZ 需要系统 Qt。选择“文件 > 打开串口”，确认串口参数及录制目录后连接。GUI 新会话默认录制可读 `.log` 文件。
+预编译程序位于 `bin/` 目录。运行 `bin/flattencom-gui`（Windows 为 `binlattencom-gui.exe`）。Windows 环境需确保依赖 DLL 及 `platforms/` 插件目录位于程序同级；Linux 环境需预先安装 Qt 6 运行时依赖。
+
+通过 **文件 > 打开串口** 建立连接，指定波特率、数据位、校验位、停止位及录制路径后连接。活动会话默认实时显示流式数据，并以纯文本 `.log` 格式持久化。
 
 在 Linux 上从源码构建时，安装 Rust 1.98+、CMake 3.24+、Qt 6.5+ Widgets/Network/Test、Ninja、C++20 编译器、libudev 开发文件和 pkg-config。Debian/Ubuntu 使用单独安装的 Qt SDK 时，还需安装 `libgl1-mesa-dev` 和 `libxkbcommon-dev`。项目脚本需要 Python 3.9+。在仓库根目录执行：
 

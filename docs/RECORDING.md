@@ -21,7 +21,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 | Structured recording | `record_to: "capture.jsonl"` | Serialized frames with raw bytes, direction, timestamps and decoding |
 | Raw receive recording | `record_rx_to: "receive.log"` | RX bytes only, regardless of extension; no inserted timestamp or TX |
 | Ordinary export | GUI Export / RPC `export_log` with `format: "txt"` | Retained-memory text snapshot; automatic extension `.log` |
-| Issue report | GUI Issue bundle | One `.txt` report containing selected evidence and context |
+| Issue report | GUI Issue bundle | One `.txt` report containing selected snippet and context |
 
 Readable `.log` normalizes line endings, joins chunks, hides ANSI decoration and escapes binary/control bytes. Use JSONL to preserve payload bytes for replay. Renaming a file does not convert it; GUI history also recognizes older raw/JSONL `.log` captures.
 

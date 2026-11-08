@@ -75,7 +75,7 @@ Only explicitly allowlisted read queries may retry once after an interrupted RPC
 daemon_info adds backend_connection with connected, generation, connected_at_ms, last_disconnect (at_ms/reason) and last_reconnect_error. During an outage the call itself can fail; stderr retains transport/reconnect observations. They identify the observed EOF/IO/framing event, not necessarily its original external cause. See [Troubleshooting](TROUBLESHOOTING.md#backend-connection).
 
 <a id="selected-evidence"></a>
-## Selected evidence
+## Selected snippet
 
 GUI Share selection publishes an immutable text snapshot and copies its ID/instructions. Reading it does not fetch surrounding frames. Limits, revocation and persistence are defined in [Workbench RPC](WORKBENCH-RPC.md).
 
