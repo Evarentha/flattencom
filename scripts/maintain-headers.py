@@ -187,7 +187,7 @@ DOCS = {
  'TROUBLESHOOTING':'Diagnoses backend, port, recording, deployment and display problems with reproducible checks.',
  'ARCHITECTURE':'Explains component boundaries, capture data flow, concurrency and local access control.',
  'DEVELOPMENT':'Documents build dependencies, verification commands, protocol changes and release packaging.',
- 'GUI':'Documents desktop controls, session workflows, history navigation, recording and evidence export.',
+ 'GUI':'Documents desktop controls, session workflows, history navigation, recording and snippet export.',
  'I18N':'Explains language selection, translation catalogs, placeholder handling and localization checks.',
  'MCP':'Documents MCP configuration, serial debugging tools, resources and selection-scoped analysis.',
  'PROTOCOL':'Specifies local JSON-RPC transport, methods, errors, frame cursors and recording behavior.',
