@@ -26,6 +26,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
   面向 <b>Linux 和 Windows</b> 的串口调试工作台：Qt 桌面、CLI/TUI 与 MCP 桥接共用同一本地后台服务。
 </p>
 
+<p align="center">
+  <img src="docs/images/flattencom-gui.png" alt="flattencom-gui 界面" width="880">
+</p>
+
 ## 快速开始
 
 预编译程序位于 `bin/` 目录。运行 `bin/flattencom-gui`（Windows 为 `binlattencom-gui.exe`）。Windows 环境需确保依赖 DLL 及 `platforms/` 插件目录位于程序同级；Linux 环境需预先安装 Qt 6 运行时依赖。

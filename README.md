@@ -26,6 +26,10 @@ SPDX-License-Identifier: GPL-3.0-or-later
   Serial debugging workbench for <b>Linux and Windows</b>: a Qt desktop, CLI/TUI and MCP bridge over a shared local background service.
 </p>
 
+<p align="center">
+  <img src="docs/images/flattencom-gui.png" alt="flattencom-gui interface" width="880">
+</p>
+
 ## Quick start
 
 Prebuilt binaries are located under `bin/`. Run `bin/flattencom-gui` (or `binlattencom-gui.exe` on Windows). On Windows, keep companion DLLs and the `platforms/` directory adjacent to the executable. On Linux, ensure Qt 6 runtime libraries are present.
